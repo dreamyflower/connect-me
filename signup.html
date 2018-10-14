@@ -2,99 +2,170 @@
 <html>
   <head>
     <title>Connect Me</title>
-    <style>
-      * {box-sizing: border-box}
-
-      /* Full-width input fields */
-      input[type=text], input[type=password] {
-        width: 100%;
-        padding: 15px;
-        margin: 5px 0 22px 0;
-        display: inline-block;
-        border: none;
-        background: #f1f1f1;
-      }
-
-      input[type=text]:focus, input[type=password]:focus {
-        background-color: #ddd;
-        outline: none;
-      }
-
-      hr {
-        border: 1px solid #f1f1f1;
-        margin-bottom: 25px;
-      }
-
-      /* Set a style for all buttons */
-      button {
-        background-color: #69d8f4;
-        color: white;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        cursor: pointer;
-        width: 100%;
-        opacity: 0.9;
-      }
-
-      button:hover {
-        opacity:1;
-      }
-
-      /* Extra styles for the cancel button */
-      .cancelbtn {
-        padding: 14px 20px;
-        background-color: #919191;
-      }
-
-      /* Float cancel and signup buttons and add an equal width */
-      .cancelbtn, .nextbtn {
-        float: left;
-        width: 50%;
-      }
-
-      /* Add padding to container elements */
-      .container {
-        padding: 16px;
-      }
-
-      /* Clear floats */
-      .clearfix::after {
-        content: "";
-        clear: both;
-        display: table;
-      }
-
-      /* Change styles for cancel button and signup button on extra small screens */
-      @media screen and (max-width: 300px) {
-        .cancelbtn, .nextbtn {
-          width: 100%;
-        }
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="styles.css">
   </head>
 
   <body>
-    <form style="border:1px solid #ccc">
-      <div class="container">
-        <h1>Sign Up</h1>
-        <p>Please fill in this form to create an account.</p>
-        <hr>
-
-        <label for="username"><b>Username</b></label>
-        <input type="text" placeholder="Username" name="username" required>
-
-        <label for="email"><b>Email</b></label>
-        <input type="text" placeholder="Email" name="email" required>
-
-        <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" required>
-
-        <div class="clearfix">
-          <button type="button" class="cancelbtn">Cancel</button>
-          <button type="button" class="nextbtn">Next</button>
-        </div>
+    <header>
+      <div class="nav">
+        <img id="logo" src="logo.png"/>
       </div>
-    </form>
+    </header>
+
+    <section>
+      <div class="container">
+        <div class="card">
+          <form id="regForm" action="">
+            <h1>Create an Account</h1>
+
+            <div class="tab">Sign up
+              <p><input placeholder="Username" oninput="this.className = ''"></p>
+              <p><input placeholder="Email" oninput="this.className = ''"></p>
+              <p><input placeholder="Password" oninput="this.className = ''"></p>
+            </div>
+
+            <div class="tab">Tell us about yourself:
+              <p><input placeholder="Gender" oninput="this.className = ''"></p>
+              <p><input placeholder="Age" oninput="this.className = ''"></p>
+              <p><input placeholder="Where were you born?" oninput="this.className = ''"></p>
+              <p><input placeholder="What language do you speak?" oninput="this.className = ''"></p>
+            </div>
+
+            <div style="padding-bottom:20px;" class="tab"><p>What do you like?</p>
+              <label class="box">Art
+                <input type="checkbox" name="art">
+                <span class="checkmark"></span>
+              </label>
+
+              <label class="box">Music
+                <input type="checkbox" name="music">
+                <span class="checkmark"></span>
+              </label>
+
+              <label class="box">Sports
+                <input type="checkbox" name="sports">
+                <span class="checkmark"></span>
+              </label>
+
+              <label class="box">Entertainment
+                <input type="checkbox" name="entertainment">
+                <span class="checkmark"></span>
+              </label>
+
+              <label class="box">Food
+                <input type="checkbox" name="food">
+                <span class="checkmark"></span>
+              </label>
+
+              <label class="box">Shopping
+                <input type="checkbox" name="shopping">
+                <span class="checkmark"></span>
+              </label>
+
+              <label class="box">Outdoors
+                <input type="checkbox" name="outdoors">
+                <span class="checkmark"></span>
+              </label>
+
+              <label class="box">History
+                <input type="checkbox" name="history">
+                <span class="checkmark"></span>
+              </label>
+            </div>
+
+            <div style="overflow:auto;">
+              <div>
+                <button style="margin-right:5px;" type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+              </div>
+            </div>
+
+            <!-- Circles which indicates the steps of the form: -->
+            <div style="text-align:center;margin-top:40px;">
+              <span class="step"></span>
+              <span class="step"></span>
+              <span class="step"></span>
+            </div>
+          </form>
+      </div>
+
+      <script>
+        var currentTab = 0; // Current tab is set to be the first tab (0)
+        showTab(currentTab); // Display the current tab
+
+        function showTab(n) {
+        // This function will display the specified tab of the form ...
+        var x = document.getElementsByClassName("tab");
+        x[n].style.display = "block";
+        // ... and fix the Previous/Next buttons:
+        if (n == 0) {
+          document.getElementById("prevBtn").style.display = "none";
+        } else {
+          document.getElementById("prevBtn").style.display = "inline";
+        }
+        if (n == (x.length - 1)) {
+          document.getElementById("nextBtn").innerHTML = "Submit";
+        } else {
+          document.getElementById("nextBtn").innerHTML = "Next";
+        }
+        // ... and run a function that displays the correct step indicator:
+        fixStepIndicator(n)
+        }
+
+        function nextPrev(n) {
+        // This function will figure out which tab to display
+        var x = document.getElementsByClassName("tab");
+        // Exit the function if any field in the current tab is invalid:
+        if (n == 1 && !validateForm()) return false;
+        // Hide the current tab:
+        x[currentTab].style.display = "none";
+        // Increase or decrease the current tab by 1:
+        currentTab = currentTab + n;
+        // if you have reached the end of the form... :
+        if (currentTab >= x.length) {
+          //...the form gets submitted:
+          document.getElementById("regForm").submit();
+          return false;
+        }
+        // Otherwise, display the correct tab:
+        showTab(currentTab);
+        }
+
+        function validateForm() {
+        // This function deals with validation of the form fields
+        var x, y, i, valid = true;
+        x = document.getElementsByClassName("tab");
+        y = x[currentTab].getElementsByTagName("input");
+        // A loop that checks every input field in the current tab:
+        for (i = 0; i < y.length; i++) {
+          // If a field is empty...
+          if (y[i].value == "") {
+            // add an "invalid" class to the field:
+            y[i].className += " invalid";
+            // and set the current valid status to false:
+            valid = false;
+          }
+        }
+        // If the valid status is true, mark the step as finished and valid:
+        if (valid) {
+          document.getElementsByClassName("step")[currentTab].className += " finish";
+        }
+        return valid; // return the valid status
+        }
+
+        function fixStepIndicator(n) {
+        // This function removes the "active" class of all steps...
+        var i, x = document.getElementsByClassName("step");
+        for (i = 0; i < x.length; i++) {
+          x[i].className = x[i].className.replace(" active", "");
+        }
+        //... and adds the "active" class to the current step:
+        x[n].className += " active";
+        }
+      </script>
+    </section>
+
+    <footer>
+    </footer>
   </body>
 </html>
